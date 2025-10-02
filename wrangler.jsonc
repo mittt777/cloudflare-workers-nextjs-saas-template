@@ -39,9 +39,9 @@
      * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
      */
     "vars": {
-        "EMAIL_FROM": "no-reply@notifications.agenticdev.agency",
-        "EMAIL_FROM_NAME": "AgenticDev.agency",
-        "EMAIL_REPLY_TO": "support@agenticdev.agency"
+        "EMAIL_FROM": "mit777@sina.com",
+        "EMAIL_FROM_NAME": "mit777",
+        "EMAIL_REPLY_TO": "mit777@sina.com"
     },
     /**
      * Note: Use secrets to store sensitive data.
@@ -59,14 +59,6 @@
       }
     ],
 
-    "durable_objects": {
-      "bindings": [
-        {
-          "name": "NEXT_CACHE_DO_QUEUE",
-          "class_name": "DOQueueHandler",
-        }
-      ]
-    },
 
     "migrations": [
       {
@@ -79,14 +71,14 @@
         {
             "binding": "NEXT_TAG_CACHE_D1",
             "database_name": "cloudflare-workers-nextjs-saas",
-            "database_id": "94dd1269-a29c-4621-adff-1762d1af6926",
+            "database_id": "dd59db96-8d3d-41c2-92ae-f5e9b4bb801f",
             "migrations_dir": "src/db/migrations"
         }
     ],
     "kv_namespaces": [
         {
             "binding": "NEXT_INC_CACHE_KV",
-            "id": "c6f2b077e0a34a84b3598558eb833055"
+            "id": "dfd7835af03e4dfbb2cd08c13c88b470"
         }
     ]
   }
