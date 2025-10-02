@@ -327,68 +327,30 @@ export const requireAdmin = cache(async ({
   return session;
 });
 
-interface DisposableEmailResponse {
-  disposable: string;
-}
 
-interface MailcheckResponse {
-  status: number;
-  email: string;
-  domain: string;
-  mx: boolean;
-  disposable: boolean;
-  public_domain: boolean;
-  relay_domain: boolean;
-  alias: boolean;
-  role_account: boolean;
-  did_you_mean: string | null;
-}
 
-type ValidatorResult = {
-  success: boolean;
-  isDisposable: boolean;
-};
+//type ValidatorResult = {
+//  success: boolean;
+//  isDisposable: boolean;
+//};
 
 /**
  * Checks if an email is disposable using debounce.io
  */
-async function checkWithDebounce(email: string): Promise<ValidatorResult> {
-  try {
-    const response = await fetch(`https://disposable.debounce.io/?email=${encodeURIComponent(email)}`);
+//async function checkWithDebounce(email: string): Promise<ValidatorResult> {
 
-    if (!response.ok) {
-      console.error("Debounce.io API error:", response.status);
-      return { success: false, isDisposable: false };
-    }
+    //return { success: true, isDisposable: false };
 
-    const data = await response.json() as DisposableEmailResponse;
-
-    return { success: true, isDisposable: data.disposable === "true" };
-  } catch (error) {
-    console.error("Failed to check disposable email with debounce.io:", error);
-    return { success: false, isDisposable: false };
-  }
-}
+//}
 
 /**
  * Checks if an email is disposable using mailcheck.ai
  */
-async function checkWithMailcheck(email: string): Promise<ValidatorResult> {
-  try {
-    const response = await fetch(`https://api.mailcheck.ai/email/${encodeURIComponent(email)}`);
+//async function checkWithMailcheck(email: string): Promise<ValidatorResult> {
 
-    if (!response.ok) {
-      console.error("Mailcheck.ai API error:", response.status);
-      return { success: false, isDisposable: false };
-    }
+  //  return { success: true, isDisposable: false };
 
-    const data = await response.json() as MailcheckResponse;
-    return { success: true, isDisposable: data.disposable };
-  } catch (error) {
-    console.error("Failed to check disposable email with mailcheck.ai:", error);
-    return { success: false, isDisposable: false };
-  }
-}
+//}
 
 
 /**
@@ -403,34 +365,34 @@ export async function canSignUp({ email }: { email: string }): Promise<void> {
     return;
   }
 
-  const validators = [
-    checkWithDebounce,
-    checkWithMailcheck,
-  ];
+ // const validators = [
+ //   checkWithDebounce,
+ //   checkWithMailcheck,
+//  ];
 
-  for (const validator of validators) {
-    const result = await validator(email);
+ // for (const validator of validators) {
+//    const result = await validator(email);
 
     // If the validator failed (network error, rate limit, etc), try the next one
-    if (!result.success) {
-      continue;
-    }
+  //  if (!result.success) {
+  //    continue;
+  //  }
 
     // If we got a successful response and it's disposable, reject the signup
-    if (result.isDisposable) {
-      throw new ZSAError(
-        "PRECONDITION_FAILED",
-        "Disposable email addresses are not allowed"
-      );
-    }
-
+  //  if (result.isDisposable) {
+   //   throw new ZSAError(
+     //   "PRECONDITION_FAILED",
+   //     "Disposable email addresses are not allowed"
+  //    );
+   // }
+console.log(email);
     // If we got a successful response and it's not disposable, allow the signup
     return;
-  }
+ // }
 
   // If all validators failed, we can't verify the email
-  throw new ZSAError(
-    "PRECONDITION_FAILED",
-    "Unable to verify email address at this time. Please try again later."
-  );
+ // throw new ZSAError(
+ //   "PRECONDITION_FAILED",
+  //  "Unable to verify email address at this time. Please try again later."
+  //);
 }
